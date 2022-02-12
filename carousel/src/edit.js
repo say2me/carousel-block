@@ -1,59 +1,51 @@
-/**
- * Retrieves the translation of text.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-i18n/
- */
 import { __ } from '@wordpress/i18n';
-
-/**
- * React hook that is used to mark the block wrapper element.
- * It provides all the necessary props like the class name.
- *
- * @see https://developer.wordpress.org/block-editor/packages/packages-block-editor/#useBlockProps
- */
+import { createBlock } from '@wordpress/blocks';
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
+import { useSelect, useDispatch } from '@wordpress/data';
 
-/**
- * Lets webpack process CSS, SASS or SCSS files referenced in JavaScript files.
- * Those files can contain any CSS code that gets applied to the editor.
- *
- * @see https://www.npmjs.com/package/@wordpress/scripts#using-css
- */
 import './editor.scss';
 
-/**
- * The edit function describes the structure of your block in the context of the
- * editor. This represents what the editor will render when the block is used.
- *
- * @see https://developer.wordpress.org/block-editor/developers/block-api/block-edit-save/#edit
- *
- * @return {WPElement} Element to render.
- */
-export default function Edit() {
+export default function Edit( { clientId }) {
+	const { insertBlock } = useDispatch('core/block-editor');
+
 	const blockProps = useBlockProps( {
 		className: 'xwp-carousel',
 	} );
+	console.log(clientId)
+	const slides = useSelect( ( select ) => {
+		return select( 'core/block-editor' ).getBlocks( clientId );
+	} );
 
 	const addNewSlide = () => {
-
+		insertBlock(
+			createBlock( 'xwp-blocks/slide', { id: slides.length } ),
+			slides.length + 1,
+			clientId
+		);
 	}
 	return (
 		<div { ...useBlockProps() }>
 			<div className="xwp-slide-container">
 			<InnerBlocks
-					allowedBlocks={ [ 'xwpblocks/slide' ] }
-					template={ [ [ 'xwpblocks/slide', {} ] ] }
+					allowedBlocks={ [ 'xwp-blocks/slide' ] }
+					template={ [ [ 'xwp-blocks/slide', {} ] ] }
+					templateLock={ false }
 				/>
 			</div>
 			<div className="xwp-arrow xwp-back xwp-back-button">←</div>
         	<div class="xwp-arrow xwp-forward xwp-forward-button">→</div>
+			<div className="xwp-slide-indicators">
+				{ slides.map((slide) => {
+					return <div class="xwp-slide-indicator"></div>
+				})}
+        	</div>
 			<button
 					type="button"
 					onClick={ addNewSlide }
 					className="xwp-blocks-carousel-add-new-slide-button"
 				>
 					{ __( 'Add a new slide', 'xwp-blocks' ) }
-				</button>
+			</button>
 		</div>
 	);
 }

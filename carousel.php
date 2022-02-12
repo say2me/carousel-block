@@ -22,6 +22,6 @@
  */
 function create_block_carousel_block_init() {
 	register_block_type( __DIR__ . '/carousel/build' );
-	// register_block_type( __DIR__ . '/slide/build' );
+	register_block_type( __DIR__ . '/slide/build' );
 }
 add_action( 'init', 'create_block_carousel_block_init' );

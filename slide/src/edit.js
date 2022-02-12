@@ -32,7 +32,7 @@ import './editor.scss';
 
 
 export default function Edit( { attributes } ) {
-	const { isActive } = attributes;
+	const { id } = attributes;
 
 	const blockProps = useBlockProps( {
 		className: 'xwp-slide',
@@ -41,14 +41,13 @@ export default function Edit( { attributes } ) {
 	return (
 		<div
 			{ ...blockProps }
-			style={ { display: isActive ? 'block' : 'none' } }
-			data-slideindex={ 0 }
+			data-slideindex={ id }
 		>
 			<InnerBlocks
 				template={ [
 					[
 						'core/paragraph',
-						{ placeholder: __( 'Enter content for this tab' ) },
+						{ placeholder: __( 'Enter content for this slide' ) },
 					],
 				] }
 			/>

@@ -13,7 +13,7 @@ carousel/build/
 slide/build/
 # Dependency directories
 carousel/node_modules/
-slide/nod_modules/
+slide/node_modules/
 # Optional npm cache directory
 .npm
 

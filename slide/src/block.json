@@ -1,7 +1,10 @@
 {
 	"$schema": "https://schemas.wp.org/trunk/block.json",
 	"apiVersion": 2,
-	"name": "xwp-blocks/xwp-slide",
+	"name": "xwp-blocks/slide",
+	"parent": [
+		"xwp-blocks/xwp-carousel"
+	],
 	"version": "0.1.0",
 	"title": "XWP Slide",
 	"category": "widgets",
