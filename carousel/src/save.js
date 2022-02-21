@@ -1,7 +1,6 @@
-import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
+import { useBlockProps, useInnerBlocksProps, InnerBlocks } from '@wordpress/block-editor';
 
-export default function save() {
-	const slides_count = [];
+export default function save({attributes: { slides_count } } ) {
 	return (
 		<div { ...useBlockProps.save() }>
 			<div className="xwp-slide-container">

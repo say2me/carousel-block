@@ -2,11 +2,11 @@ import { __ } from '@wordpress/i18n';
 import { createBlock } from '@wordpress/blocks';
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 import { useSelect, useDispatch } from '@wordpress/data';
-import { useEffect } from '@wordpress/element';
+// import { useEffect } from '@wordpress/element';
 
 import './editor.scss';
 
-export default function Edit( { clientId, setAttributes }) {
+export default function Edit( { clientId, setAttributes, attributes }) {
 	const { insertBlock } = useDispatch('core/block-editor');
 
 	const blockProps = useBlockProps( {
@@ -29,6 +29,7 @@ export default function Edit( { clientId, setAttributes }) {
 	// 	console.log(slidesCount);
 	// 	// setAttributes( { slides_count: slidesCount } );
 	// });
+	attributes.slides_count !== slidesCount ? setAttributes( { slides_count: slidesCount } ) : null;
 	return (
 		<div { ...useBlockProps() }>
 			<div className="xwp-slide-container">
@@ -41,7 +42,7 @@ export default function Edit( { clientId, setAttributes }) {
 			<div className="xwp-arrow xwp-back xwp-back-button">←</div>
         	<div class="xwp-arrow xwp-forward xwp-forward-button">→</div>
 			<div className="xwp-slide-indicators">
-				{ [...Array(slidesCount)].map((slide) => {
+				{ [...Array(attributes.slides_count || 0)].map((slide) => {
 					return <div class="xwp-slide-indicator"></div>
 				})}
         	</div>
