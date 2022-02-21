@@ -44,12 +44,7 @@ export default function Edit( { attributes } ) {
 			data-slideindex={ id }
 		>
 			<InnerBlocks
-				template={ [
-					[
-						'core/paragraph',
-						{ placeholder: __( 'Enter content for this slide' ) },
-					],
-				] }
+
 			/>
 		</div>
 	);

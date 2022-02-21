@@ -28,7 +28,7 @@
 	width: 40px;
 }
 
-.xwp-slide-indicator.active:after,
+.xwp-slide-indicator.xwp-active:after,
 .xwp-slide-indicator:hover:after {
 	background-color: #000000;
 }
@@ -67,12 +67,12 @@
 	cursor: pointer;
 }
 
-.xwp-arrow.back {
+.xwp-arrow.xwp-back {
 	left: 10px;
 	top: 10px;
 }
 
-.xwp-arrow.forward {
+.xwp-arrow.xwp-forward {
 	right: 10px;
 	top: 10px;
 }
