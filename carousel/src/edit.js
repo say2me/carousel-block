@@ -1,20 +1,26 @@
 import { __ } from '@wordpress/i18n';
 import { createBlock } from '@wordpress/blocks';
-import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
+import { ToggleControl } from '@wordpress/components';
+import {
+	useBlockProps,
+	InnerBlocks,
+	BlockControls,
+} from '@wordpress/block-editor';
 import { useSelect, useDispatch } from '@wordpress/data';
+import { useState } from '@wordpress/element';
 // import { useEffect } from '@wordpress/element';
 
 import './editor.scss';
 
-export default function Edit( { clientId, setAttributes, attributes }) {
-	const { insertBlock } = useDispatch('core/block-editor');
+export default function Edit({ clientId, setAttributes, attributes }) {
+	// const { insertBlock } = useDispatch('core/block-editor');
 
-	const blockProps = useBlockProps( {
+	const blockProps = useBlockProps({
 		className: 'xwp-carousel',
-	} );
-	const slidesCount = useSelect( ( select ) => {
-		return select( 'core/block-editor' ).getBlockCount( clientId );
-	} );
+	});
+	const slidesCount = useSelect((select) => {
+		return select('core/block-editor').getBlockCount(clientId);
+	});
 	// const addNewSlide = () => {
 	// 	insertBlock(
 	// 		createBlock( 'xwp-blocks/slide', { slide_index: slides.length } ),
@@ -29,23 +35,35 @@ export default function Edit( { clientId, setAttributes, attributes }) {
 	// 	console.log(slidesCount);
 	// 	// setAttributes( { slides_count: slidesCount } );
 	// });
-	attributes.slides_count !== slidesCount ? setAttributes( { slides_count: slidesCount } ) : null;
+	console.log('render', attributes);
+	attributes.slides_count !== slidesCount
+		? setAttributes({ slides_count: slidesCount })
+		: null;
 	return (
-		<div { ...useBlockProps() }>
+		<div {...useBlockProps()}>
+			<BlockControls>
+				<ToggleControl
+					label="Autoplay"
+					checked={attributes.autoplay === 'true'}
+					onChange={(state) => {
+						setAttributes({ autoplay: state.toString() });
+					}}
+				/>
+			</BlockControls>
 			<div className="xwp-slide-container">
-			<InnerBlocks
-					allowedBlocks={ [ 'xwp-blocks/slide' ] }
-					template={ [ [ 'xwp-blocks/slide', {} ] ] }
-					templateLock={ false }
+				<InnerBlocks
+					allowedBlocks={['xwp-blocks/slide']}
+					template={[['xwp-blocks/slide', {}]]}
+					templateLock={false}
 				/>
 			</div>
 			<div className="xwp-arrow xwp-back xwp-back-button">←</div>
-        	<div class="xwp-arrow xwp-forward xwp-forward-button">→</div>
+			<div class="xwp-arrow xwp-forward xwp-forward-button">→</div>
 			<div className="xwp-slide-indicators">
-				{ [...Array(attributes.slides_count || 0)].map((slide) => {
-					return <div class="xwp-slide-indicator"></div>
+				{[...Array(attributes.slides_count || 0)].map((slide) => {
+					return <div class="xwp-slide-indicator"></div>;
 				})}
-        	</div>
+			</div>
 			{/* <button
 					type="button"
 					onClick={ addNewSlide }

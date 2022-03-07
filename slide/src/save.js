@@ -1,10 +1,9 @@
 import { useBlockProps, InnerBlocks } from '@wordpress/block-editor';
 
-export default function save( { attributes: { id } } ) {
+export default function save() {
 	return (
 		<div
 			{ ...useBlockProps.save() }
-			data-slideindex={ id }
 		>
 			<InnerBlocks.Content />
 		</div>

@@ -32,17 +32,13 @@ import './editor.scss';
 
 
 export default function Edit( { attributes } ) {
-	const { id } = attributes;
-
 	const blockProps = useBlockProps( {
 		className: 'xwp-slide',
+		'data-slide-index': 'xxx',
 	} );
 
 	return (
-		<div
-			{ ...blockProps }
-			data-slideindex={ id }
-		>
+		<div { ...blockProps } >
 			<InnerBlocks
 
 			/>

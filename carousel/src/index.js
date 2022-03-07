@@ -25,7 +25,7 @@ import save from './save';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-registerBlockType( 'xwp-blocks/xwp-carousel', {
+registerBlockType('xwp-blocks/xwp-carousel', {
 	/**
 	 * @see ./edit.js
 	 */
@@ -35,4 +35,4 @@ registerBlockType( 'xwp-blocks/xwp-carousel', {
 	 * @see ./save.js
 	 */
 	save,
-} );
+});

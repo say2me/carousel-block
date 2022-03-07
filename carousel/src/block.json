@@ -6,9 +6,23 @@
 	"title": "Carousel",
 	"category": "widgets",
 	"icon": "smiley",
-	"description": "Example block written with ESNext standard and JSX support – build step required.",
+	"description": "Carousel container",
 	"supports": {
-		"html": false
+		"html": false,
+		"className": false
+	},
+	"attributes": {
+        "autoplay": {
+            "type": "string",
+			"source": "attribute",
+			"selector": "div[data-xwp-carousel-autoplay]",
+			"attribute": "data-xwp-carousel-autoplay",
+			"default": "false"
+		},
+		"slides_count": {
+			"type": "number",
+			"default": 0
+		}
 	},
 	"textdomain": "carousel",
 	"editorScript": "file:./index.js",
