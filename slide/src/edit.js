@@ -30,18 +30,15 @@ import './editor.scss';
  * @return {WPElement} Element to render.
  */
 
-
-export default function Edit( { attributes } ) {
-	const blockProps = useBlockProps( {
+export default function Edit({ attributes }) {
+	const blockProps = useBlockProps({
 		className: 'xwp-slide',
 		'data-slide-index': 'xxx',
-	} );
+	});
 
 	return (
-		<div { ...blockProps } >
-			<InnerBlocks
-
-			/>
+		<div {...blockProps}>
+			<InnerBlocks />
 		</div>
 	);
 }

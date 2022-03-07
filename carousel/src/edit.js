@@ -1,13 +1,19 @@
 import { __ } from '@wordpress/i18n';
-import { createBlock } from '@wordpress/blocks';
-import { ToggleControl } from '@wordpress/components';
+// import { createBlock } from '@wordpress/blocks';
+import {
+	ToggleControl,
+	__experimentalNumberControl as NumberControl,
+	PanelBody,
+	PanelRow,
+} from '@wordpress/components';
+
 import {
 	useBlockProps,
 	InnerBlocks,
 	BlockControls,
+	InspectorControls,
 } from '@wordpress/block-editor';
-import { useSelect, useDispatch } from '@wordpress/data';
-import { useState } from '@wordpress/element';
+import { useSelect } from '@wordpress/data';
 // import { useEffect } from '@wordpress/element';
 
 import './editor.scss';
@@ -35,21 +41,45 @@ export default function Edit({ clientId, setAttributes, attributes }) {
 	// 	console.log(slidesCount);
 	// 	// setAttributes( { slides_count: slidesCount } );
 	// });
-	console.log('render', attributes);
+	console.log(attributes);
 	attributes.slides_count !== slidesCount
 		? setAttributes({ slides_count: slidesCount })
 		: null;
+	const AutplayToggleControl = () => {
+		return (
+			<ToggleControl
+				label={__('Autoplay', 'xwp-blocks')}
+				checked={attributes.autoplay === 'true'}
+				className="xwp-carousel-block-control-toogle"
+				onChange={(state) => {
+					setAttributes({ autoplay: state.toString() });
+				}}
+			/>
+		);
+	};
 	return (
 		<div {...useBlockProps()}>
-			<BlockControls>
-				<ToggleControl
-					label="Autoplay"
-					checked={attributes.autoplay === 'true'}
-					onChange={(state) => {
-						setAttributes({ autoplay: state.toString() });
-					}}
-				/>
-			</BlockControls>
+			<BlockControls>{AutplayToggleControl()}</BlockControls>
+			<InspectorControls>
+				<PanelBody title={__('Autoplay', 'xwp-blocks')}>
+					<PanelRow>{AutplayToggleControl()}</PanelRow>
+					{attributes.autoplay === 'true' && (
+						<PanelRow>
+							<legend className="blocks-base-control__label">
+								{__('Autoplay Delay', 'xwp-blocks')}
+							</legend>
+							<NumberControl
+								isShiftStepEnabled={true}
+								onChange={(state) => {
+									setAttributes({ autoplay_delay: state });
+								}}
+								shiftStep={1}
+								value={attributes.autoplay_delay}
+							/>
+						</PanelRow>
+					)}
+				</PanelBody>
+			</InspectorControls>
 			<div className="xwp-slide-container">
 				<InnerBlocks
 					allowedBlocks={['xwp-blocks/slide']}

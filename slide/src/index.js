@@ -25,7 +25,7 @@ import save from './save';
  *
  * @see https://developer.wordpress.org/block-editor/reference-guides/block-api/block-registration/
  */
-registerBlockType( 'xwp-blocks/slide', {
+registerBlockType('xwp-blocks/slide', {
 	/**
 	 * @see ./edit.js
 	 */
@@ -35,4 +35,4 @@ registerBlockType( 'xwp-blocks/slide', {
 	 * @see ./save.js
 	 */
 	save,
-} );
+});
