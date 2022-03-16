@@ -1,4 +1,4 @@
-const Carousel = (node) => {
+export default (node) => {
 	const container = node.querySelector('.xwp-slide-container');
 	const slide = container.querySelector('.wp-block-xwp-blocks-slide');
 	let slideWidth = slide.offsetWidth;
@@ -68,9 +68,3 @@ const Carousel = (node) => {
 		slideObserver.observe(slide);
 	});
 };
-
-document
-	.querySelectorAll('.wp-block-xwp-blocks-xwp-carousel')
-	.forEach((node) => {
-		new Carousel(node);
-	});
