@@ -21,27 +21,10 @@ import './editor.scss';
 export default function Edit({ clientId, setAttributes, attributes }) {
 	// const { insertBlock } = useDispatch('core/block-editor');
 
-	const blockProps = useBlockProps({
-		className: 'xwp-carousel',
-	});
+	const blockProps = useBlockProps();
 	const slidesCount = useSelect((select) => {
 		return select('core/block-editor').getBlockCount(clientId);
 	});
-	// const addNewSlide = () => {
-	// 	insertBlock(
-	// 		createBlock( 'xwp-blocks/slide', { slide_index: slides.length } ),
-	// 		slides.length + 1,
-	// 		clientId
-	// 	);
-	// 	setAttributes( { slides_count: slides.length + 1 } )
-	// }
-	// useEffect((action) => {
-	// 	console.log(action);
-	// 	console.log('use effect');
-	// 	console.log(slidesCount);
-	// 	// setAttributes( { slides_count: slidesCount } );
-	// });
-	console.log(attributes);
 	attributes.slides_count !== slidesCount
 		? setAttributes({ slides_count: slidesCount })
 		: null;
@@ -58,7 +41,7 @@ export default function Edit({ clientId, setAttributes, attributes }) {
 		);
 	};
 	return (
-		<div {...useBlockProps()}>
+		<div {...blockProps}>
 			<BlockControls>{AutplayToggleControl()}</BlockControls>
 			<InspectorControls>
 				<PanelBody title={__('Autoplay', 'xwp-blocks')}>
@@ -87,20 +70,17 @@ export default function Edit({ clientId, setAttributes, attributes }) {
 					templateLock={false}
 				/>
 			</div>
-			<div className="xwp-arrow xwp-back xwp-back-button">←</div>
-			<div class="xwp-arrow xwp-forward xwp-forward-button">→</div>
+			<div className="xwp-arrow xwp-back" data-xwp-control="back">
+				←
+			</div>
+			<div class="xwp-arrow xwp-forward" data-xwp-control="forward">
+				→
+			</div>
 			<div className="xwp-slide-indicators">
 				{[...Array(attributes.slides_count || 0)].map((slide) => {
 					return <div class="xwp-slide-indicator"></div>;
 				})}
 			</div>
-			{/* <button
-					type="button"
-					onClick={ addNewSlide }
-					className="xwp-blocks-carousel-add-new-slide-button"
-				>
-					{ __( 'Add a new slide', 'xwp-blocks' ) }
-			</button> */}
 		</div>
 	);
 }

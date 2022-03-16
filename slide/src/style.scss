@@ -1,4 +1,10 @@
-.xwp-slide {
-	min-height: 40px;
-	border: 1px solid green;
+
+.wp-block-xwp-blocks-slide {
+	scroll-snap-align: center;
+	position: relative;
+	min-width: 100%;
+	padding-top: 0;
+	img {
+		object-fit: cover;
+	}
 }

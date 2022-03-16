@@ -1,47 +1,43 @@
-export default () => {
-	const carouselEl = document.getElementById('carousel');
-	const slideContainerEl = carouselEl.querySelector('#slide-container');
-	const slideEl = carouselEl.querySelector('.slide');
-	let slideWidth = slideEl.offsetWidth;
-	// Add click handlers
-	document
-		.querySelector('#back-button')
-		.addEventListener('click', () => navigate('backward'));
-	document
-		.querySelector('#forward-button')
-		.addEventListener('click', () => navigate('forward'));
-	document.querySelectorAll('.slide-indicator').forEach((dot, index) => {
+const Carousel = (node) => {
+	const container = node.querySelector('.xwp-slide-container');
+	const slide = container.querySelector('.wp-block-xwp-blocks-slide');
+	let slideWidth = slide.offsetWidth;
+
+	node.querySelector('[data-xwp-control="back"]').addEventListener(
+		'click',
+		() => navigate('backward')
+	);
+	node.querySelector('[data-xwp-control="forward"]').addEventListener(
+		'click',
+		() => navigate('forward')
+	);
+
+	node.querySelectorAll('.slide-indicator').forEach((dot, index) => {
 		dot.addEventListener('click', () => navigate(index));
 		dot.addEventListener('mouseenter', () => clearInterval(autoplay));
 	});
-	// Add keyboard handlers
-	document.addEventListener('keydown', (e) => {
-		if (e.code === 'ArrowLeft') {
-			clearInterval(autoplay);
-			navigate('backward');
-		} else if (e.code === 'ArrowRight') {
-			clearInterval(autoplay);
-			navigate('forward');
-		}
-	});
-	// Add resize handler
+
 	window.addEventListener('resize', () => {
-		slideWidth = slideEl.offsetWidth;
+		slideWidth = slide.offsetWidth;
 	});
+
 	// Autoplay
-	const autoplay = setInterval(() => navigate('forward'), 3000);
-	slideContainerEl.addEventListener('mouseenter', () =>
-		clearInterval(autoplay)
-	);
+	const isAutoplay = container.dataset.xwpCarouselAutoplay === 'true';
+	if (isAutoplay) {
+		const delay = parseInt(container.dataset.xwpCarouselAutoplayDelay) || 3;
+		const autoplay = setInterval(() => navigate('forward'), delay * 1000);
+		container.addEventListener('mouseenter', () => clearInterval(autoplay));
+	}
+
 	// Slide transition
 	const getNewScrollPosition = (arg) => {
 		const gap = 10;
-		const maxScrollLeft = slideContainerEl.scrollWidth - slideWidth;
+		const maxScrollLeft = container.scrollWidth - slideWidth;
 		if (arg === 'forward') {
-			const x = slideContainerEl.scrollLeft + slideWidth + gap;
+			const x = container.scrollLeft + slideWidth + gap;
 			return x <= maxScrollLeft ? x : 0;
 		} else if (arg === 'backward') {
-			const x = slideContainerEl.scrollLeft - slideWidth - gap;
+			const x = container.scrollLeft - slideWidth - gap;
 			return x >= 0 ? x : maxScrollLeft;
 		} else if (typeof arg === 'number') {
 			const x = arg * (slideWidth + gap);
@@ -49,7 +45,7 @@ export default () => {
 		}
 	};
 	const navigate = (arg) => {
-		slideContainerEl.scrollLeft = getNewScrollPosition(arg);
+		container.scrollLeft = getNewScrollPosition(arg);
 	};
 	// Slide indicators
 	const slideObserver = new IntersectionObserver(
@@ -57,18 +53,24 @@ export default () => {
 			entries.forEach((entry) => {
 				if (entry.isIntersecting) {
 					const slideIndex = entry.target.dataset.slideindex;
-					carouselEl
-						.querySelector('.slide-indicator.active')
-						.classList.remove('active');
-					carouselEl
-						.querySelectorAll('.slide-indicator')
-						[slideIndex].classList.add('active');
+					node.querySelector(
+						'.xwp-slide-indicator.xwp-active'
+					).classList.remove('xwp-active');
+					node.querySelectorAll('.xwp-slide-indicator')[
+						slideIndex
+					].classList.add('xwp-active');
 				}
 			});
 		},
-		{ root: slideContainerEl, threshold: 0.1 }
+		{ root: container, threshold: 0.1 }
 	);
-	document.querySelectorAll('.slide').forEach((slide) => {
+	node.querySelectorAll('.slide').forEach((slide) => {
 		slideObserver.observe(slide);
 	});
 };
+
+document
+	.querySelectorAll('.wp-block-xwp-blocks-xwp-carousel')
+	.forEach((node) => {
+		new Carousel(node);
+	});

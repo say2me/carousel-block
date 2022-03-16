@@ -9,7 +9,6 @@
 	"description": "Carousel container",
 	"supports": {
 		"html": false,
-		"className": false,
 		"color": {
 			"text": false,
             "background": true
