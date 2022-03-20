@@ -1,11 +1,9 @@
 import carousel from './Components/carousel';
 
 const start = () => {
-	document
-		.querySelectorAll('.wp-block-xwp-blocks-xwp-carousel')
-		.forEach((node) => {
-			carousel(node);
-		});
+	document.querySelectorAll('.xwp-carousel').forEach((node) => {
+		carousel(node);
+	});
 };
 
 if ('loading' === document.readyState) {

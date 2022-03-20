@@ -1,7 +1,9 @@
 export default (node) => {
 	const container = node.querySelector('.xwp-slide-container');
-	const slide = container.querySelector('.wp-block-xwp-blocks-slide');
+	const slide = container.querySelector('.xwp-slide');
 	let slideWidth = slide.offsetWidth;
+	const isAutoplay = container.dataset.xwpCarouselAutoplay === 'true';
+	let autoplay = false;
 
 	node.querySelector('[data-xwp-control="back"]').addEventListener(
 		'click',
@@ -12,9 +14,10 @@ export default (node) => {
 		() => navigate('forward')
 	);
 
-	node.querySelectorAll('.slide-indicator').forEach((dot, index) => {
+	node.querySelectorAll('.xwp-slide-indicator').forEach((dot, index) => {
 		dot.addEventListener('click', () => navigate(index));
-		dot.addEventListener('mouseenter', () => clearInterval(autoplay));
+		isAutoplay &&
+			dot.addEventListener('mouseenter', () => clearInterval(autoplay));
 	});
 
 	window.addEventListener('resize', () => {
@@ -22,10 +25,10 @@ export default (node) => {
 	});
 
 	// Autoplay
-	const isAutoplay = container.dataset.xwpCarouselAutoplay === 'true';
+
 	if (isAutoplay) {
 		const delay = parseInt(container.dataset.xwpCarouselAutoplayDelay) || 3;
-		const autoplay = setInterval(() => navigate('forward'), delay * 1000);
+		autoplay = setInterval(() => navigate('forward'), delay * 1000);
 		container.addEventListener('mouseenter', () => clearInterval(autoplay));
 	}
 
@@ -64,7 +67,7 @@ export default (node) => {
 		},
 		{ root: container, threshold: 0.1 }
 	);
-	node.querySelectorAll('.slide').forEach((slide) => {
+	node.querySelectorAll('.xwp-slide').forEach((slide) => {
 		slideObserver.observe(slide);
 	});
 };

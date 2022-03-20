@@ -4,7 +4,7 @@ export default function save({
 	attributes: { slides_count, autoplay, autoplay_delay },
 }) {
 	return (
-		<div {...useBlockProps.save()}>
+		<div {...useBlockProps.save()} className="xwp-carousel">
 			<div
 				className="xwp-slide-container"
 				data-xwp-carousel-autoplay={autoplay}

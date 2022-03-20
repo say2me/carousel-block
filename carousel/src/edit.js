@@ -10,6 +10,7 @@ import {
 import {
 	useBlockProps,
 	InnerBlocks,
+	__experimentalUseInnerBlocksProps as useInnerBlocksProps,
 	BlockControls,
 	InspectorControls,
 } from '@wordpress/block-editor';
@@ -21,7 +22,9 @@ import './editor.scss';
 export default function Edit({ clientId, setAttributes, attributes }) {
 	// const { insertBlock } = useDispatch('core/block-editor');
 
-	const blockProps = useBlockProps();
+	const blockProps = useBlockProps({
+		className: 'xwp-carousel',
+	});
 	const slidesCount = useSelect((select) => {
 		return select('core/block-editor').getBlockCount(clientId);
 	});
@@ -40,6 +43,14 @@ export default function Edit({ clientId, setAttributes, attributes }) {
 			/>
 		);
 	};
+	const innerBlocksProps = useInnerBlocksProps(
+		{},
+		{
+			allowedBlocks: ['xwp-blocks/slide'],
+			template: [['xwp-blocks/slide', {}]],
+			className: 'xwp-slide-container',
+		}
+	);
 	return (
 		<div {...blockProps}>
 			<BlockControls>{AutplayToggleControl()}</BlockControls>
@@ -63,13 +74,7 @@ export default function Edit({ clientId, setAttributes, attributes }) {
 					)}
 				</PanelBody>
 			</InspectorControls>
-			<div className="xwp-slide-container">
-				<InnerBlocks
-					allowedBlocks={['xwp-blocks/slide']}
-					template={[['xwp-blocks/slide', {}]]}
-					templateLock={false}
-				/>
-			</div>
+			<div {...innerBlocksProps} />
 			<div className="xwp-arrow xwp-back" data-xwp-control="back">
 				←
 			</div>

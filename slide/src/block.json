@@ -11,7 +11,8 @@
 	"icon": "smiley",
 	"description": "",
 	"supports": {
-		"html": false
+		"html": false,
+		"className": false
 	},
 	"textdomain": "xwp-blocks",
 	"editorScript": "file:./index.js",
