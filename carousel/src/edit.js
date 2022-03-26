@@ -23,7 +23,7 @@ export default function Edit({ clientId, setAttributes, attributes }) {
 	// const { insertBlock } = useDispatch('core/block-editor');
 
 	const blockProps = useBlockProps({
-		className: 'xwp-carousel',
+		className: 'xwp-carousel-g',
 	});
 	const slidesCount = useSelect((select) => {
 		return select('core/block-editor').getBlockCount(clientId);
@@ -43,14 +43,6 @@ export default function Edit({ clientId, setAttributes, attributes }) {
 			/>
 		);
 	};
-	const innerBlocksProps = useInnerBlocksProps(
-		{},
-		{
-			allowedBlocks: ['xwp-blocks/slide'],
-			template: [['xwp-blocks/slide', {}]],
-			className: 'xwp-slide-container',
-		}
-	);
 	return (
 		<div {...blockProps}>
 			<BlockControls>{AutplayToggleControl()}</BlockControls>
@@ -74,7 +66,13 @@ export default function Edit({ clientId, setAttributes, attributes }) {
 					)}
 				</PanelBody>
 			</InspectorControls>
-			<div {...innerBlocksProps} />
+			<div className="xwp-slide-container">
+				<InnerBlocks
+					allowedBlocks={['xwp-blocks/slide']}
+					template={[['xwp-blocks/slide', {}]]}
+					templateLock={false}
+				/>
+			</div>
 			<div className="xwp-arrow xwp-back" data-xwp-control="back">
 				←
 			</div>

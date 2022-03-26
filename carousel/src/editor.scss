@@ -3,16 +3,21 @@
  *
  * Replace them with your own styles or remove the file completely.
  */
- .block-editor-block-toolbar__slot .xwp-carousel-block-control-toogle {
-	padding-left: 11px;
-    padding-right: 6px;
-    padding-top: 13px;
-}
 
 .xwp-carousel {
 	min-height: 50px;
+	.block-editor-block-toolbar__slot {
+		.xwp-carousel-block-control-toogle {
+			padding-left: 11px;
+			padding-right: 6px;
+			padding-top: 13px;
+		}
+	}
 	.block-editor-block-list__layout {
-		left: 38px;
-		top: 2px;
+		max-width: 705px;
+		display: flex;
+		flex-direction: column;
+		margin: 0 auto;
+		position: relative;
 	}
 }
