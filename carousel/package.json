@@ -12,9 +12,12 @@
 		"lint:js": "wp-scripts lint-js",
 		"packages-update": "wp-scripts packages-update",
 		"plugin-zip": "wp-scripts plugin-zip",
-		"start": "export NODE_OPTIONS=--openssl-legacy-provider && wp-scripts start"
+		"start": "wp-scripts start"
 	},
 	"devDependencies": {
 		"@wordpress/scripts": "^21.0.1"
+	},
+	"dependencies": {
+		"@wordpress/icons": "^8.2.0"
 	}
 }

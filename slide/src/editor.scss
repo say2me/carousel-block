@@ -4,6 +4,9 @@
  * Replace them with your own styles or remove the file completely.
  */
  .wp-block-xwp-blocks-slide {
-	 min-height: 50px;
-	 border: 1px solid green;
+	min-height: 50px;
+	scroll-snap-align: center;
+	position: relative;
+	min-width: 100%;
+	padding-top: 0;
  }

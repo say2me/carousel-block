@@ -1,10 +1,12 @@
 import { __ } from '@wordpress/i18n';
-// import { createBlock } from '@wordpress/blocks';
+import { createBlock } from '@wordpress/blocks';
 import {
 	ToggleControl,
 	__experimentalNumberControl as NumberControl,
 	PanelBody,
 	PanelRow,
+	ToolbarGroup,
+	ToolbarButton,
 } from '@wordpress/components';
 
 import {
@@ -14,16 +16,17 @@ import {
 	BlockControls,
 	InspectorControls,
 } from '@wordpress/block-editor';
-import { useSelect } from '@wordpress/data';
-// import { useEffect } from '@wordpress/element';
-
+import { useSelect, useDispatch } from '@wordpress/data';
+import { useRef } from '@wordpress/element';
+import { arrowLeft, arrowRight, plus } from '@wordpress/icons';
+import { getNewScrollPosition } from './Components/tools';
 import './editor.scss';
 
 export default function Edit({ clientId, setAttributes, attributes }) {
-	// const { insertBlock } = useDispatch('core/block-editor');
-
+	const { insertBlock } = useDispatch('core/block-editor');
+	const containerEl = useRef(null);
 	const blockProps = useBlockProps({
-		className: 'xwp-carousel-g',
+		className: 'xwp-carousel',
 	});
 	const slidesCount = useSelect((select) => {
 		return select('core/block-editor').getBlockCount(clientId);
@@ -43,9 +46,43 @@ export default function Edit({ clientId, setAttributes, attributes }) {
 			/>
 		);
 	};
+	const go = (arg) => {
+		console.log(arg);
+		const container = containerEl.current.querySelector(
+			'.block-editor-block-list__layout'
+		);
+		container.scrollLeft = getNewScrollPosition(arg, container);
+	};
+	const addNewSlide = () => {
+		insertBlock(
+			createBlock('xwp-blocks/slide', {}),
+			attributes.slides_count + 1,
+			clientId
+		);
+	};
 	return (
 		<div {...blockProps}>
-			<BlockControls>{AutplayToggleControl()}</BlockControls>
+			<BlockControls>
+				<ToolbarGroup>
+					<ToolbarButton
+						icon={arrowLeft}
+						label={__('Back', 'xwp-blocks')}
+						onClick={() => go('back')}
+					/>
+					<ToolbarButton
+						icon={arrowRight}
+						label={__('Forward', 'xwp-blocks')}
+						onClick={() => go('forward')}
+					/>
+				</ToolbarGroup>
+				<ToolbarGroup>
+					<ToolbarButton
+						icon={plus}
+						label={__('Add slide', 'xwp-blocks')}
+						onClick={addNewSlide}
+					/>
+				</ToolbarGroup>
+			</BlockControls>
 			<InspectorControls>
 				<PanelBody title={__('Autoplay', 'xwp-blocks')}>
 					<PanelRow>{AutplayToggleControl()}</PanelRow>
@@ -66,22 +103,36 @@ export default function Edit({ clientId, setAttributes, attributes }) {
 					)}
 				</PanelBody>
 			</InspectorControls>
-			<div className="xwp-slide-container">
+			<div className="xwp-slide-container" ref={containerEl}>
 				<InnerBlocks
+					orientation="horizontal"
 					allowedBlocks={['xwp-blocks/slide']}
 					template={[['xwp-blocks/slide', {}]]}
-					templateLock={false}
+					renderAppender={false}
 				/>
 			</div>
-			<div className="xwp-arrow xwp-back" data-xwp-control="back">
+			<div
+				className="xwp-arrow xwp-back"
+				data-xwp-control="back"
+				onClick={() => go('back')}
+			>
 				←
 			</div>
-			<div class="xwp-arrow xwp-forward" data-xwp-control="forward">
+			<div
+				class="xwp-arrow xwp-forward"
+				data-xwp-control="forward"
+				onClick={() => go('forward')}
+			>
 				→
 			</div>
 			<div className="xwp-slide-indicators">
-				{[...Array(attributes.slides_count || 0)].map((slide) => {
-					return <div class="xwp-slide-indicator"></div>;
+				{[...Array(attributes.slides_count || 0)].map((slide, i) => {
+					return (
+						<div
+							class="xwp-slide-indicator"
+							onClick={(e) => go(i)}
+						></div>
+					);
 				})}
 			</div>
 		</div>
